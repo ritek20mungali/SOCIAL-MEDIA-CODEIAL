@@ -1,4 +1,4 @@
-const mongoose =require("mongoose0");
+const mongoose =require("mongoose");
 
 const postSchema =new mongoose.Schema({
     content:{
@@ -8,10 +8,15 @@ const postSchema =new mongoose.Schema({
     user:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'User'
-    }
+    },
+    //include the array of ids of all comments in this post schema itself
+    comments:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Comment'
+    }]
  } ,{
         timestamps:true
     });
 
     const Post =mongoose.model('Post',postSchema);
-    module.exports=Post;
+    module.exports= Post;
