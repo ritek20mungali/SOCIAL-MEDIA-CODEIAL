@@ -1,0 +1,6 @@
+
+
+     <p>Name is : <%= user.name %></p>
+     <p>Email is: <%= user.email %></p> 
+
+     
