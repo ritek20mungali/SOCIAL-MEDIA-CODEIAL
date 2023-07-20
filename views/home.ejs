@@ -20,64 +20,26 @@
 
   <div id="posts-list-container">
     <ul>
-      <% for(post of posts){ %>
-        <li>
-          <p>
+      <% for(post of posts) { %>
+        
+        <%- include('_post') -%>
 
-            <% if(locals.user && locals.user.id == post.user.id){ %>
-
-            <small>
-              <a href="/posts/destroy/<%= post.id %>"> XX </a>
-            </small>
-
-            <% } %>
-
-            <%= post.content %>
-            <br>
-            <small>
-              <%= post.user.name %>
-            </small>
-          </p>
-
-          <div class="post-comments">
-            <% if(locals.user){ %>
-                 <form action="/comments/create" method="POST">
-                  <input type="text" name="content" placeholder="Type here to add comments...">
-                  <input type="hidden" name="post" value="<%= post._id %>">
-                  <input type="submit" value="Add Comment">
-                 </form>
-              <% } %>
-
-              <div class="post-comments-list">
-                <ul id="post-comments-<%= post._id %>">
-                          <% for(comment of post.comments) { %>
-                                 <p>
-
-                                  
-            <% if(locals.user && locals.user.id == comment.user.id){ %>
-
-              <small>
-                <a href="/comments/destroy/<%= comment.id %>"> XX </a>
-              </small>
-  
-              <% } %>
-
-                                  <%= comment.comment %>
-                                 </p>
-                                 <small>
-                                  <%= comment.user.name %>
-                                 </small>
-                            <% } %>
-
-                </ul>
-              </div>
-          </div>
-          
-        </li>
-
-        <%} %>
+        <% } %>
     </ul>
   </div>
+    </section>
+
+
+    <section id="user-friends">
+      <h4>FRIENDS</h4>
+
+      <% for(u of all_users ) { %>
+        <p>
+          <a href="/users/profile/<%= u.id %>">
+            <%= u.name %>
+          </a>
+        </p>
+      <% } %>
     </section>
 
 
