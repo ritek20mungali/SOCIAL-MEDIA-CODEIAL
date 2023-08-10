@@ -8,9 +8,43 @@ const mongoose =require('mongoose');
 const session =require('express-session');
 const passport =require('passport');
 const passportLocal =require('./config/passport-local-strategy');
+
+const passportJWT =require('./config/passport-jwt-strategy');
+const passportGoogle =require('./config/passport-google-oauth2-strategy');
+
 const MongoStore = require('connect-mongo')(session);
 const flash =require('connect-flash');
 const customMware =require('./config/middleware');
+
+//set up an char server to be used with socket .io
+
+//>>>>>>>>>>>>>>>>>>>  SOCKET IO
+
+const http = require('http');
+const cors = require('cors'); // Import the cors package
+const server = http.Server(app);
+
+app.use(cors()); // Use cors middleware to enable CORS for all routes
+
+// Your other server configuration
+
+server.listen(8000, () => {
+  console.log('Server is running on port 8000');
+});
+
+const chatSockets = require('./config/chat_sockets').chatSockets(server); // Pass the server instance to chatSockets
+
+
+app.use(cors({
+  origin: 'http://localhost:8000', // Replace with your frontend's URL
+  methods: ['GET', 'POST'], // Allowed HTTP methods
+}));
+
+
+//>>>>>>>>>>>>>>>>>>>
+
+
+
 
 
 app.use(express.urlencoded());
@@ -20,6 +54,8 @@ app.use(cookieParser());
 const expresslayouts =require('express-ejs-layouts');
 
 app.use(express.static('./assets'));
+//make the uploads path avail to the browser
+app.use('/uploads',express.static(__dirname+'/uploads'));
 
 app.use(expresslayouts);
 //extract styles and scripts from sub pages into layout
@@ -74,10 +110,10 @@ app.use(customMware.setFlash);
 //use express router
 app.use('/',require('./routes'));
 
-app.listen(port,function(err){
-    if(err){
-        console.log(`Error on running the server: ${port}`);
-    }
-    console.log(`Server is running on port :: ${port}`);
-});
+// app.listen(port,function(err){
+//     if(err){
+//         console.log(`Error on running the server: ${port}`);
+//     }
+//     console.log(`Server is running on port :: ${port}`);
+// });
 

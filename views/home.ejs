@@ -42,7 +42,28 @@
       <% } %>
     </section>
 
+    <%- include('_chat_box') -%>
+
 
 <script src="/js/home_posts.js"></script>
+<script src="/js/toggle_like.js"></script>
+
+<script>
+  $('.toggle-like-button').each(function(){
+    let self=this;
+    let toggleLike=new ToggleLike(self);
+  });
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.js"></script>
+
+<script src="/js/chat_engine.js"></script>
+
+<% if(locals.user){ %>
+<script>
+  new ChatEngine('user-chat-box','<%= locals.user.email%>');
+</script>
+
+<% } %>
 
 <!-- <script src="/js/home_comment.js"></script> -->
